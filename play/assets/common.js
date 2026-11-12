@@ -169,6 +169,11 @@ const UPGRADES = {
     desc: 'Ещё одна клетка для появления бочек — до 5 штук. Клетки сохраняются после престижа',
     base: 1000000000, growth: 1000, max: BIGGER_MAX, currency: 'scrap',
   },
+  autoMerge: {
+    name: 'Авто слияние', icon: '🔄', color: 'blue',
+    desc: 'Автоматически сливает две одинаковые бочки раз в 10 секунд. Каждый уровень ускоряет слияние',
+    base: 1000000, growth: 1000, max: 5, currency: 'scrap',
+  },
 };
 
 /* Магазин «Магнит»: постоянные улучшения за 🧲. Переживают престиж.
@@ -243,6 +248,14 @@ const STARS_MAX = 10;
 function spawnInterval(st) {
   const level = Math.min(SPAWN_MAX_LEVEL, st.upgrades.spawn || 0);
   return Math.max(SPAWN_MIN, SPAWN_BASE - SPAWN_STEP * level);
+}
+
+/* «Авто слияние»: 1 уровень — раз в 10 с, 5 уровень — раз в 6 с.
+   0 = улучшение не куплено, автоматических слияний нет. */
+function autoMergeInterval(st) {
+  const level = Math.min(UPGRADES.autoMerge.max, Math.max(0, st.upgrades.autoMerge || 0));
+  if (level <= 0) return 0;
+  return Math.max(6, 11 - level);
 }
 
 /* Купленный стартовый уровень: 0 → 1-я бочка, 1 → 2-я, … 11 → 12-я */
@@ -747,7 +760,7 @@ window.BC = {
   upgradeCost, upgradeMaxed, tierSingleCost, tierBulkCost, tierUnlocked,
   magnetUpgradeCost, magnetShopLevel, stormCallCost, STORM_CALL_COST,
   FIELD_COLS, FIELD_ROWS, FIELD_SIZE, fieldSize, BIGGER_MAX, STARS_MAX,
-  SPAWN_BASE, SPAWN_STEP, SPAWN_MAX_LEVEL, SPAWN_MIN, spawnInterval, spawnLevel,
+  SPAWN_BASE, SPAWN_STEP, SPAWN_MAX_LEVEL, SPAWN_MIN, spawnInterval, spawnLevel, autoMergeInterval,
   magnetChance, doubleChance, stormInterval, offlineSeconds, spawnTier, raiseFieldBarrels,
   stormMagnetCount, STORM_MAGNET_BASE, STORM_MAGNET_PER_LEVEL,
   fmt, fmtPrice, formatTime, shade, barrelSVG, STORAGE_KEY,
