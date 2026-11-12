@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Barrel Clicker 2 — скрап, бочки и штормы</title>
+  <meta name="description" content="Кликер про бочки, скрап и магнитные шторма: 512 уровней, престиж и золотой скрап. Играй на телефоне с домашнего экрана.">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="color-scheme" content="dark">
+  <meta name="application-name" content="Barrel Clicker">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Barrel Clicker">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/favicon-48.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="assets/style.css?v=20261112a">
+</head>
+<body>
+  <div class="boot-splash" id="bootSplash" aria-hidden="true">
+    <div class="boot-splash-inner">
+      <div class="boot-avatar">🛢️</div>
+      <div class="boot-name">
+        <b>Barrel Clicker <span class="boot-num">2</span></b>
+        <span class="boot-sub">Scrap Yard</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-fx" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+  </div>
+  <canvas class="fx-canvas" id="fxCanvas" aria-hidden="true"></canvas>
+
+  <div class="app">
+    <header class="appbar">
+      <div class="brand">
+        <span class="brand-mark" id="brandMark" role="button" tabindex="0" aria-label="Логотип">🛢️</span>
+        <div class="brand-text">
+          <b>Barrel Clicker 2</b>
+          <span>Scrap Yard</span>
+        </div>
+      </div>
+      <div class="appbar-actions">
+        <button class="icon-btn" id="soundBtn" aria-label="Звук" title="Звук">🔊</button>
+        <button class="icon-btn" id="moreBtn" aria-label="Ещё">☰</button>
+      </div>
+    </header>
+
+    <section class="hero card">
+      <div class="hero-scrap">
+        <span class="hero-icon">⚙️</span>
+        <div class="hero-scrap-text">
+          <div class="hero-value" id="scrap">0</div>
+          <div class="hero-sub">
+            <span id="perSecond">0 / сек</span>
+            <span class="dot">·</span>
+            <span>всего <b id="totalScrap">0</b></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-side">
+        <div class="level-line">
+          <span>Level <b id="level">1</b></span>
+          <span class="muted" id="xpText">0 / 10</span>
+        </div>
+        <div class="bar xp"><i id="xpFill"></i></div>
+        <div class="pill-row">
+          <span class="pill magnet">🧲 <b id="magnets">0</b></span>
+          <span class="pill golden">🏅 <b id="goldenScrap">0</b></span>
+          <span class="pill star">⭐ <b id="stars">0</b></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="storm card">
+      <span class="storm-icon">🌪️</span>
+      <div class="storm-text">
+        <b id="stormLabel">Следующий шторм</b>
+        <span id="stormEta">05:00</span>
+      </div>
+      <div class="bar storm-bar"><i id="stormFill"></i></div>
+      <button class="btn small" id="stormCall">Вызвать · 10 🧲</button>
+    </section>
+
+    <main class="views">
+      <!-- ПОЛЕ -->
+      <section class="view" id="view-field">
+        <div class="card field-card">
+          <div class="field-head">
+            <div class="field-head-text">
+              <h2 class="field-title">
+                Поле слияния
+                <span class="badge" id="fieldCount">0 / 32</span>
+              </h2>
+              <p class="field-sub">
+                Бочки появляются по порядку — в первую свободную клетку.
+                Перетащи одну на такую же (или кликни по двум): доход новой бочки — сумма двух × 1,33.
+                Ненужную бочку перетащи в мусоропровод под полем.
+              </p>
+            </div>
+            <div class="field-meta">
+              <span class="spawn-label">следующая через</span>
+              <span class="spawn-eta" id="spawnEta">5,0 с</span>
+            </div>
+          </div>
+
+          <div class="field-wrap">
+            <div class="field" id="field"></div>
+
+            <div class="trash-zone" id="trashZone" title="Перетащи сюда бочку, чтобы выбросить">
+              <span class="trash-ico">🗑️</span>
+              <div class="trash-text">
+                <b>Мусоропровод</b>
+                <span>Перетащи сюда бочку — она исчезнет</span>
+              </div>
+              <span class="trash-count" id="trashCount">0</span>
+            </div>
+          </div>
+
+          <div class="field-stats">
+            <div><b id="fieldBarrels">0</b><span>на поле</span></div>
+            <div><b id="merges">0</b><span>слияний</span></div>
+            <div><b id="fieldIncome">0</b><span>поле / сек</span></div>
+            <div><b id="spawnTierNow">1</b><span>уровень спавна</span></div>
+          </div>
+
+          <div class="float-layer" id="floatLayer"></div>
+        </div>
+      </section>
+
+      <!-- БОЧКИ -->
+      <section class="view hidden" id="view-barrels">
+        <div class="view-head">
+          <h2>Бочки</h2>
+          <span class="badge" id="unlockedBarrels">Открыто: 1 / 512</span>
+        </div>
+        <div class="barrel-tools">
+          <input type="number" id="barrelJump" min="1" max="512" step="1" placeholder="Найти уровень 1–512">
+          <button class="btn small" id="barrelJumpBtn">Найти</button>
+          <button class="btn small" id="barrelNowBtn">К текущему</button>
+        </div>
+        <div class="barrel-grid" id="barrelGrid"></div>
+        <p class="view-note">
+          Всего 512 уровней бочек — прокручивай список или найди нужный уровень по номеру.
+          Бочки в коллекции приносят пассивный доход даже вне поля. Высокие уровни открываются,
+          когда появляется бочка такого уровня, куплена предыдущая или хватает скрапа.
+        </p>
+      </section>
+
+      <!-- УЛУЧШЕНИЯ -->
+      <section class="view hidden" id="view-upgrades">
+        <div class="view-head">
+          <h2>Улучшения</h2>
+          <span class="muted" id="upgradeSummary">0 улучшений</span>
+        </div>
+        <div class="upgrade-grid" id="upgradeGrid"></div>
+        <p class="view-note">
+          «Быстрый конвейер» можно прокачать максимум 40 раз: 5,0 с → 1,0 с.
+          «Стартовый уровень» повышает уровень новых бочек — вплоть до 512-го,
+          а бочки прошлого уровня на поле сразу становятся нового.
+          «Больше — лучше» добавляет до 5 дополнительных клеток для появления бочек:
+          первая стоит 1 млрд скрапа, каждая следующая — в 1000 раз дороже.
+        </p>
+      </section>
+
+      <!-- МАГНИТНЫЙ МАГАЗИН -->
+      <section class="view hidden" id="view-magnet">
+        <div class="view-head">
+          <h2>Магнитный магазин</h2>
+          <span class="badge" id="magnetSummary">0 / 25</span>
+        </div>
+        <p class="view-note">
+          Постоянные улучшения за 🧲: они не сбрасываются при престиже.
+          Сейчас в запасе: <b id="magnetBalance">0</b> 🧲.
+        </p>
+        <div class="upgrade-grid" id="magnetGrid"></div>
+        <p class="view-note">
+          Магниты падают при слияниях, а во время шторма их ловят кликом.
+          «Экономия» снижает цену ручного вызова шторма с 10 до 5 🧲.
+        </p>
+      </section>
+
+      <!-- ПРЕСТИЖ -->
+      <section class="view hidden" id="view-prestige">
+        <div class="card prestige-card">
+          <div class="prestige-head">
+            <span class="prestige-icon">♻️</span>
+            <div>
+              <h2>Престиж</h2>
+              <p>Перезапуск сохраняет золотой скрап, звёзды и магниты.
+                Первый перезапуск — с 1 млн скрапа за забег, каждые 5 перезапусков — в 10 раз дороже.</p>
+            </div>
+          </div>
+
+          <div class="prestige-main">
+            <div>
+              <span>Свалка</span>
+              <b>уровень <span id="prestigeLevel">1</span></b>
+            </div>
+            <div>
+              <span>Золотой скрап</span>
+              <b class="golden-text" id="prestigeGolden">0</b>
+            </div>
+          </div>
+
+          <div class="prestige-list">
+            <div><span>Нужно за забег</span><b id="prestigeNeed">1 M</b></div>
+            <div><span>Накоплено за забег</span><b id="prestigeProgress">0 / 1 M</b></div>
+            <div><span>После перезапуска</span><b id="prestigeGain">+0 🏅</b></div>
+            <div><span>Бонус за 100 🏅</span><b id="prestigePerGolden">10%</b></div>
+            <div><span>Текущий буст</span><b id="prestigeBoost">×1,00</b></div>
+            <div><span>Буст после перезапуска</span><b id="prestigeNextBoost">×1,00</b></div>
+          </div>
+
+          <button class="btn danger wide" id="prestigeBtn">Перезапустить игру</button>
+        </div>
+
+        <div class="card stars-card">
+          <div class="stars-head">
+            <h2>Звёзды</h2>
+            <span class="badge" id="starsCount">0 / 10</span>
+          </div>
+          <div class="stars-row" id="starRow"></div>
+          <p class="stars-note">Каждая звезда даёт +10% ко всему доходу. Одна звезда — за каждый перезапуск, максимум 10.</p>
+          <div class="stat-line"><span>Бонус звёзд</span><b id="starBoost">+0%</b></div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button data-view="field" class="active"><span>🛢</span>Поле</button>
+      <button data-view="barrels"><span>🧱</span>Бочки</button>
+      <button data-view="upgrades"><span>⚡</span>Улучшения</button>
+      <button data-view="magnet"><span>🧲</span>Магнит</button>
+      <button data-view="prestige"><span>♻️</span>Престиж</button>
+      <button id="moreBtn2"><span>☰</span>Ещё</button>
+    </nav>
+  </div>
+
+  <!-- Окно «Ещё»: статистика, новости, настройки -->
+  <div class="sheet" id="moreSheet" hidden>
+    <div class="sheet-card">
+      <header class="sheet-head">
+        <h2>Ещё</h2>
+        <button class="icon-btn" id="sheetClose" aria-label="Закрыть">✕</button>
+      </header>
+
+      <div class="sheet-tabs">
+        <button data-sheet="stats" class="active">Статистика</button>
+        <button data-sheet="news">Новости</button>
+        <button data-sheet="options">Настройки</button>
+      </div>
+
+      <div class="sheet-panel" id="sheet-stats">
+        <div class="stat-grid">
+          <div><span>Всего скрапа</span><b id="statTotalScrap">0</b></div>
+          <div><span>Слияний</span><b id="statMerges">0</b></div>
+          <div><span>Бочек создано</span><b id="statSpawns">0</b></div>
+          <div><span>Штормов</span><b id="statStorms">0</b></div>
+          <div><span>Перезапусков</span><b id="statRestarts">0</b></div>
+          <div><span>Множитель</span><b id="statMult">×1</b></div>
+        </div>
+      </div>
+
+      <div class="sheet-panel hidden" id="sheet-news">
+        <div class="news-item">
+          <b>Магнитный шторм</b>
+          <span>Во время шторма магниты падают сверху вниз — успей кликнуть по каждому и собрать 🧲.</span>
+        </div>
+        <div class="news-item">
+          <b>512 уровней бочек</b>
+          <span>К 12 базовым бочкам добавлено ещё 500: ищи нужный уровень в магазине по номеру.</span>
+        </div>
+        <div class="news-item">
+          <b>Скорость появления</b>
+          <span>Максимум 40 улучшений, каждый уровень ускоряет появление на 0,1 секунды.</span>
+        </div>
+        <div class="news-item">
+          <b>Больше — лучше</b>
+          <span>Новое улучшение добавляет клетку для появления бочек. Всего до 5 клеток: 1 млрд скрапа за первую и ×1000 за каждую следующую.</span>
+        </div>
+      </div>
+
+      <div class="sheet-panel hidden" id="sheet-options">
+        <div class="install-card" id="installCard" hidden>
+          <div class="install-head">
+            <span class="install-ico" aria-hidden="true">📱</span>
+            <div>
+              <b>Установить игру</b>
+              <span id="installState">Добавь на домашний экран — и играй без браузера</span>
+            </div>
+          </div>
+          <button class="btn wide" id="installBtn" hidden>Установить на телефон</button>
+          <ol class="install-steps" id="installSteps" hidden>
+            <li>Открой игру в <b>Safari</b></li>
+            <li>Нажми <b>«Поделиться»</b> <span class="install-share" aria-hidden="true">⬆️</span> внизу экрана</li>
+            <li>Выбери <b>«На экран „Домой“»</b> и нажми «Добавить»</li>
+          </ol>
+        </div>
+        <div class="options-row">
+          <button class="btn" id="exportBtn">Экспорт сохранения</button>
+          <button class="btn" id="importBtn">Импорт сохранения</button>
+        </div>
+        <div class="options-row">
+          <button class="btn danger wide" id="resetBtn">Сбросить весь прогресс</button>
+        </div>
+        <p class="options-note">Сохранение хранится локально на этом компьютере.</p>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="importFile" accept="application/json" hidden>
+
+  <!-- Секретная админ-панель: 10 кликов по логотипу в левом верхнем углу -->
+  <div class="sheet" id="adminGate" hidden>
+    <div class="sheet-card admin-gate-card">
+      <header class="sheet-head">
+        <h2>Вход в админ-панель</h2>
+        <button class="icon-btn" id="adminGateClose" aria-label="Закрыть">✕</button>
+      </header>
+      <p class="admin-hint">Введи пароль, чтобы открыть управление игрой.</p>
+      <input type="password" id="adminPassword" autocomplete="off" placeholder="Пароль">
+      <div class="admin-error" id="adminError"></div>
+      <div class="options-row">
+        <button class="btn wide" id="adminLoginBtn">Войти</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sheet" id="adminPanel" hidden>
+    <div class="sheet-card admin-card">
+      <header class="sheet-head">
+        <h2>Админ-панель</h2>
+        <button class="icon-btn" id="adminClose" aria-label="Закрыть">✕</button>
+      </header>
+
+      <div class="admin-grid">
+        <section class="admin-block">
+          <h3>Скрап</h3>
+          <div class="admin-row"><input type="number" id="adminScrap" step="any" placeholder="Сумма"></div>
+          <div class="admin-row">
+            <button class="btn small" data-admin="scrap-add">Выдать</button>
+            <button class="btn small" data-admin="scrap-set">Выставить</button>
+          </div>
+          <span class="admin-now" id="adminScrapNow"></span>
+        </section>
+
+        <section class="admin-block">
+          <h3>Магниты</h3>
+          <div class="admin-row"><input type="number" id="adminMagnets" step="1" placeholder="Количество"></div>
+          <div class="admin-row">
+            <button class="btn small" data-admin="magnets-add">Выдать</button>
+            <button class="btn small" data-admin="magnets-set">Выставить</button>
+          </div>
+          <span class="admin-now" id="adminMagnetsNow"></span>
+        </section>
+
+        <section class="admin-block">
+          <h3>Золотой скрап</h3>
+          <div class="admin-row"><input type="number" id="adminGolden" step="1" placeholder="Количество"></div>
+          <div class="admin-row">
+            <button class="btn small" data-admin="golden-add">Выдать</button>
+            <button class="btn small" data-admin="golden-set">Выставить</button>
+          </div>
+          <span class="admin-now" id="adminGoldenNow"></span>
+        </section>
+
+        <section class="admin-block">
+          <h3>Звёзды</h3>
+          <div class="admin-row"><input type="number" id="adminStars" min="0" max="10" step="1" placeholder="0–10"></div>
+          <div class="admin-row">
+            <button class="btn small" data-admin="stars-set">Выставить</button>
+          </div>
+          <span class="admin-now" id="adminStarsNow"></span>
+        </section>
+
+        <section class="admin-block">
+          <h3>Бочки</h3>
+          <div class="admin-row"><input type="number" id="adminTier" min="1" max="512" step="1" placeholder="Уровень 1–512"></div>
+          <div class="admin-row">
+            <button class="btn small" data-admin="field-spawn">На поле</button>
+            <button class="btn small" data-admin="field-fill">Заполнить</button>
+          </div>
+          <div class="admin-row">
+            <button class="btn small" data-admin="field-clear">Очистить поле</button>
+            <button class="btn small" data-admin="unlock-barrels">Открыть все</button>
+          </div>
+          <span class="admin-now" id="adminFieldNow"></span>
+        </section>
+
+        <section class="admin-block">
+          <h3>Спавн</h3>
+          <div class="admin-row"><input type="number" id="adminSpeed" min="0" max="40" step="1" placeholder="Скорость 0–40"></div>
+          <div class="admin-row"><button class="btn small" data-admin="speed-set">Выставить скорость</button></div>
+          <div class="admin-row"><input type="number" id="adminStart" min="0" max="511" step="1" placeholder="Старт 0–511"></div>
+          <div class="admin-row"><button class="btn small" data-admin="start-set">Стартовый уровень</button></div>
+          <span class="admin-now" id="adminSpawnNow"></span>
+        </section>
+
+        <section class="admin-block">
+          <h3>Улучшения</h3>
+          <div class="admin-row">
+            <button class="btn small" data-admin="max-upgrades">Прокачать всё</button>
+            <button class="btn small" data-admin="max-magnets">Магнитный магазин</button>
+          </div>
+          <span class="admin-now" id="adminUpgradesNow"></span>
+        </section>
+
+        <section class="admin-block">
+          <h3>Сброс</h3>
+          <div class="admin-row">
+            <button class="btn small danger" data-admin="reset-run">Сбросить забег</button>
+            <button class="btn small danger" data-admin="reset-all">Полный сброс</button>
+          </div>
+          <span class="admin-now">Забег сохраняет звёзды, магниты и клетки.</span>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Осмотр бочки: открывается кнопкой-глазом на карточке -->
+  <div class="sheet" id="barrelInspect" hidden>
+    <div class="sheet-card inspect-card">
+      <header class="sheet-head">
+        <h2>Осмотр бочки</h2>
+        <button class="icon-btn" id="inspectClose" aria-label="Закрыть">✕</button>
+      </header>
+
+      <div class="inspect-stage">
+        <span class="inspect-glow" aria-hidden="true"></span>
+        <div class="inspect-art" id="inspectArt">
+          <canvas class="inspect-canvas" id="inspectCanvas" width="360" height="450"
+                  aria-label="3D-бочка. Потяни мышкой, чтобы повернуть."></canvas>
+        </div>
+      </div>
+      <p class="inspect-hint" id="inspectHint">Потяни мышкой, чтобы покрутить бочку</p>
+
+      <div class="inspect-title">
+        <span class="inspect-level" id="inspectLevel">Уровень 1 / 512</span>
+        <b id="inspectName">Деревянная</b>
+        <span id="inspectDesc">Пахнет смолой</span>
+      </div>
+
+      <div class="inspect-grid" id="inspectGrid"></div>
+      <p class="inspect-note" id="inspectNote"></p>
+
+      <div class="options-row inspect-nav">
+        <button class="btn" id="inspectPrev">← Уровень ниже</button>
+        <button class="btn" id="inspectNext">Уровень выше →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="storm-layer" id="stormLayer"></div>
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <script src="assets/common.js?v=20261112a"></script>
+  <script src="assets/game.js?v=20261112a"></script>
+</body>
+</html>
