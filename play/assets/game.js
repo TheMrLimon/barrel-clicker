@@ -15,6 +15,8 @@ let lastFrame = performance.now();
 let selectedCell = -1;
 let justDragged = 0;
 let lastEtaText = '';
+/* Таймер «Авто слияния». Не сохраняется: после перезагрузки отсчёт начинается заново. */
+let autoMergeTimer = 0;
 
 /* Магнитный шторм: дождь магнитов поверх интерфейса.
    Не сохраняется — это временное событие. */
@@ -663,6 +665,11 @@ function upgradeEffect(key) {
       const cells = fieldSize(state);
       if (level >= UPGRADES.bigger.max) return 'максимум: ' + cells + ' клеток поля';
       return cells + ' → ' + (cells + 1) + ' клеток поля';
+    }
+    case 'autoMerge': {
+      if (level >= UPGRADES.autoMerge.max) return 'максимум: каждые 6 с';
+      const now = level > 0 ? autoMergeInterval(state) : 0;
+      return (now ? 'каждые ' + now + ' с → ' : 'каждые ') + (11 - next) + ' с';
     }
     default:
       return '';
@@ -1386,6 +1393,7 @@ function tick(now) {
   }
 
   spawnTick(dt);
+  autoMergeTick(dt);
   stormTick(dt);
   stormRainTick(now);
 
@@ -1435,6 +1443,42 @@ function spawnTick(dt) {
   }
 
   updateEta();
+}
+
+/* «Авто слияние»: раз в N секунд сливает две одинаковые бочки.
+   Выбирается самый низкий уровень, у которого есть пара. */
+function findAutoMergePair() {
+  const byTier = new Map();
+
+  for (let i = 0; i < state.field.length; i++) {
+    const cell = state.field[i];
+    if (!cell || cell.tier >= TIERS.length - 1) continue;
+    const list = byTier.get(cell.tier);
+    if (list) list.push(i);
+    else byTier.set(cell.tier, [i]);
+  }
+
+  let best = null;
+  for (const [tier, cells] of byTier) {
+    if (cells.length < 2) continue;
+    if (!best || tier < best.tier) best = { tier, from: cells[0], to: cells[1] };
+  }
+  return best;
+}
+
+function autoMergeTick(dt) {
+  const interval = autoMergeInterval(state);
+  if (!interval) {
+    autoMergeTimer = 0;
+    return;
+  }
+
+  autoMergeTimer += dt;
+  if (autoMergeTimer < interval) return;
+  autoMergeTimer = 0;
+
+  const pair = findAutoMergePair();
+  if (pair) handleDrop(pair.from, pair.to);
 }
 
 /* ---------------------------------- сохранение ---------------------------------- */
