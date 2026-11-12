@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barrel Clicker — кликер про бочки для Windows</title>
+<meta name="description" content="Barrel Clicker — бесплатный кликер про бочки: 512 уровней, слияния, магнитный шторм, престиж и офлайн-доход. Скачать для Windows одним файлом.">
+<meta name="theme-color" content="#070a13">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Barrel Clicker — кликер про бочки для Windows">
+<meta property="og:description" content="Соединяй бочки, собирай скрап, запускай магнитные шторма. 512 уровней, престиж и офлайн-доход. Бесплатно, одним файлом.">
+<meta property="og:image" content="assets/img/shot-field.png">
+<meta property="og:image:width" content="980">
+<meta property="og:image:height" content="1020">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Barrel Clicker — кликер про бочки для Windows">
+<meta name="twitter:description" content="512 уровней, слияния, магнитный шторм, престиж и офлайн-доход. Бесплатно, одним файлом.">
+<meta name="twitter:image" content="assets/img/shot-field.png">
+<link rel="icon" href="assets/favicon.ico">
+<link rel="stylesheet" href="assets/style.css">
+<script>
+  document.documentElement.classList.add('js', 'reveal-armed');
+  window.setTimeout(function () {
+    if (!window.__bcSiteReady) document.documentElement.classList.add('reveal-fallback');
+  }, 2400);
+</script>
+<script>
+  /* Если exe лежит не в download/BarrelClicker.exe (например, в GitHub Releases),
+     впишите сюда прямую ссылку. Пустая строка = локальный файл. */
+  window.BC_DOWNLOAD_URL = "";
+</script>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <span class="blob blob-1"></span>
+  <span class="blob blob-2"></span>
+  <span class="blob blob-3"></span>
+</div>
+
+<header class="site-header" id="top">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="Barrel Clicker — на главную">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+          <defs>
+            <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#ffd977"/>
+              <stop offset="0.55" stop-color="#ffb238"/>
+              <stop offset="1" stop-color="#e07a1a"/>
+            </linearGradient>
+            <clipPath id="brandClip">
+              <path d="M18 9 C18 5 46 5 46 9 C54 23 54 41 46 55 C46 59 18 59 18 55 C10 41 10 23 18 9 Z"/>
+            </clipPath>
+          </defs>
+          <path d="M18 9 C18 5 46 5 46 9 C54 23 54 41 46 55 C46 59 18 59 18 55 C10 41 10 23 18 9 Z" fill="url(#brandGrad)"/>
+          <g clip-path="url(#brandClip)">
+            <rect x="8" y="19" width="48" height="7" fill="#1b2233" opacity="0.9"/>
+            <rect x="8" y="38" width="48" height="7" fill="#1b2233" opacity="0.9"/>
+            <rect x="20" y="12" width="4" height="40" rx="2" fill="#ffffff" opacity="0.18"/>
+          </g>
+          <ellipse cx="32" cy="9" rx="14" ry="3.6" fill="#1b2233" opacity="0.75"/>
+          <ellipse cx="32" cy="8.2" rx="11" ry="2.4" fill="#2a1c08" opacity="0.55"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <b>Barrel Clicker</b>
+        <i>Scrap Yard</i>
+      </span>
+    </a>
+
+    <nav class="site-nav" aria-label="Основная навигация">
+      <a href="#features">Возможности</a>
+      <a href="#screens">Скриншоты</a>
+      <a href="#start">Как играть</a>
+      <a href="#mobile">Телефон</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <a class="btn btn-primary btn-header" href="download/BarrelClicker.exe" download>
+      <span class="dl-ico" aria-hidden="true">↓</span>
+      Скачать
+      <span class="btn-meta">67,1 МБ</span>
+    </a>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="pulse-dot" aria-hidden="true"></span>Windows · Android · iPhone · бесплатно</span>
+
+      <h1>Barrel <span class="grad">Clicker</span></h1>
+
+      <p class="lead">
+        Соединяй бочки, собирай скрап и запускай магнитные шторма.
+        <b>512 уровней</b>, престиж, офлайн-доход — и ни одной подписки.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary btn-lg" href="download/BarrelClicker.exe" download>
+          <span class="dl-ico" aria-hidden="true">↓</span>
+          Скачать для Windows
+        </a>
+        <a class="btn btn-phone btn-lg" href="play/">
+          <span aria-hidden="true">📱</span>
+          Играть на телефоне
+        </a>
+        <a class="btn btn-ghost btn-lg" href="#screens">
+          <span aria-hidden="true">▸</span>
+          Посмотреть скриншоты
+        </a>
+      </div>
+
+      <ul class="hero-facts">
+        <li>Один файл</li>
+        <li>Без рекламы</li>
+        <li>Работает офлайн</li>
+        <li>Android и iPhone</li>
+      </ul>
+
+      <div class="hero-meta">
+        <span class="meta-pill">v2.2</span>
+        <span>Обновлено 12 ноября 2026</span>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <span class="halo" aria-hidden="true"></span>
+
+      <div class="app-window" id="heroWindow">
+        <div class="app-titlebar" aria-hidden="true">
+          <span class="win-dots"><i></i><i></i><i></i></span>
+          <span class="win-title">
+            <span class="win-ico">🛢️</span>
+            Barrel Clicker
+          </span>
+          <span class="win-controls">— ▢ ✕</span>
+        </div>
+        <div class="app-screen">
+          <img src="assets/img/shot-field.png" width="980" height="1020" alt="Игровое поле Barrel Clicker: бочки, мусоропровод и полоса магнитного шторма" fetchpriority="high">
+        </div>
+      </div>
+
+      <div class="float-chip chip-1" aria-hidden="true"><span>🧲</span> +1 магнит</div>
+      <div class="float-chip chip-2" aria-hidden="true"><span>⚡</span> Слияние ×1,33</div>
+      <div class="float-chip chip-3" aria-hidden="true"><span>🛢️</span> 512 уровней</div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="wrap stats-wrap reveal">
+    <div class="stats">
+      <div class="stat"><b>512</b><span>уровней бочек</span></div>
+      <div class="stat"><b>37</b><span>клеток поля (макс.)</span></div>
+      <div class="stat"><b>16</b><span>улучшений</span></div>
+      <div class="stat"><b>∞</b><span>перезапусков</span></div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section wrap" id="features">
+    <div class="sec-head reveal">
+      <span class="kicker">Возможности</span>
+      <h2>Всё, чтобы залипнуть<br><span class="dim">на пару сотен часов</span></h2>
+      <p>Простая механика на старте, глубокий прогресс дальше. Каждая покупка заметна, каждое слияние приятно.</p>
+    </div>
+
+    <div class="feature-grid">
+      <article class="feature reveal" data-c="amber">
+        <span class="feature-ico">🧩</span>
+        <h3>Слияние 8×4</h3>
+        <p>Тащи одинаковые бочки друг на друга или кликни по двум. Новая бочка стоит дороже, чем две старые — доход растёт. А улучшение «Больше — лучше» добавляет на поле до 5 клеток.</p>
+      </article>
+
+      <article class="feature reveal" data-c="purple">
+        <span class="feature-ico">🧱</span>
+        <h3>512 уровней</h3>
+        <p>От деревянной до сингулярности: 12 ручных уровней и 500 сгенерированных. 20 рангов, 25 материалов, свой цвет у каждого.</p>
+      </article>
+
+      <article class="feature reveal" data-c="blue">
+        <span class="feature-ico">🌪️</span>
+        <h3>Магнитный шторм</h3>
+        <p>Каждые пять минут сверху падают магниты. Успей поймать — и вызови шторм сам, когда накопишь 10 🧲. А в магнитном магазине 5 постоянных улучшений за 🧲 — от 300 штук.</p>
+      </article>
+
+      <article class="feature reveal" data-c="green">
+        <span class="feature-ico">♻️</span>
+        <h3>Престиж и звёзды</h3>
+        <p>Перезапусти забег за золотой скрап и получи постоянный множитель. До 10 звёзд, каждая — ещё +10% к доходу.</p>
+      </article>
+
+      <article class="feature reveal" data-c="gold">
+        <span class="feature-ico">⚡</span>
+        <h3>Умные покупки</h3>
+        <p>Зажми кнопку — улучшения покупаются пачкой каждые 0,085 с. Больше не нужно кликать сотню раз подряд.</p>
+      </article>
+
+      <article class="feature reveal" data-c="red">
+        <span class="feature-ico">🗑️</span>
+        <h3>Мусоропровод</h3>
+        <p>Ненужную бочку — в утиль одним движением. Поле всегда под контролем, а счётчик выброшенных растёт.</p>
+      </article>
+
+      <article class="feature reveal" data-c="indigo">
+        <span class="feature-ico">🌙</span>
+        <h3>Офлайн-доход</h3>
+        <p>Бочки работают, даже когда игра закрыта. Возвращайся за накопленным скрапом — база 2 часа, улучшения продлевают.</p>
+      </article>
+
+      <article class="feature reveal" data-c="pink">
+        <span class="feature-ico">✨</span>
+        <h3>Эффекты и звук</h3>
+        <p>Живой фон, искры при слиянии, конфетти на престиже и синтезированные звуки. Всё можно отключить одной кнопкой.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- SCREENS -->
+  <section class="section wrap" id="screens">
+    <div class="sec-head reveal">
+      <span class="kicker">Скриншоты</span>
+      <h2>Так это выглядит</h2>
+      <p>Тёмный интерфейс, крупные числа и понятные кнопки. Нажми на любой кадр, чтобы открыть его целиком.</p>
+    </div>
+
+    <div class="gallery">
+      <figure class="shot shot-big reveal" data-shot="assets/img/shot-field.png" data-caption="Поле слияния" tabindex="0" role="button" aria-label="Открыть скриншот: Поле слияния">
+        <img src="assets/img/shot-field.png" width="980" height="1020" alt="Поле слияния с бочками разных уровней и мусоропроводом" loading="lazy" decoding="async">
+        <figcaption><b>Поле слияния</b><span>32 клетки, мусоропровод и пассивный доход</span></figcaption>
+        <span class="shot-zoom" aria-hidden="true">⤢</span>
+      </figure>
+
+      <figure class="shot shot-storm reveal" data-shot="assets/img/shot-storm.png" data-caption="Магнитный шторм" tabindex="0" role="button" aria-label="Открыть скриншот: Магнитный шторм">
+        <img src="assets/img/shot-storm.png" width="980" height="1020" alt="Магнитный шторм: магниты падают поверх игрового поля" loading="lazy" decoding="async">
+        <figcaption><b>Магнитный шторм</b><span>Лови магниты, пока они падают</span></figcaption>
+        <span class="shot-zoom" aria-hidden="true">⤢</span>
+      </figure>
+
+      <figure class="shot reveal" data-shot="assets/img/shot-upgrades.png" data-caption="Улучшения" tabindex="0" role="button" aria-label="Открыть скриншот: Улучшения">
+        <img src="assets/img/shot-upgrades.png" width="980" height="1020" alt="Экран улучшений с карточками прокачки" loading="lazy" decoding="async">
+        <figcaption><b>Улучшения</b><span>11 прокачек + магнитный магазин</span></figcaption>
+        <span class="shot-zoom" aria-hidden="true">⤢</span>
+      </figure>
+
+      <figure class="shot reveal" data-shot="assets/img/shot-barrels.png" data-caption="Магазин бочек" tabindex="0" role="button" aria-label="Открыть скриншот: Магазин бочек">
+        <img src="assets/img/shot-barrels.png" width="980" height="1020" alt="Магазин бочек с уровнями и ценами" loading="lazy" decoding="async">
+        <figcaption><b>Магазин бочек</b><span>512 уровней с поиском</span></figcaption>
+        <span class="shot-zoom" aria-hidden="true">⤢</span>
+      </figure>
+
+      <figure class="shot reveal" data-shot="assets/img/shot-prestige.png" data-caption="Престиж" tabindex="0" role="button" aria-label="Открыть скриншот: Престиж">
+        <img src="assets/img/shot-prestige.png" width="980" height="1020" alt="Экран престижа с золотым скрапом и звёздами" loading="lazy" decoding="async">
+        <figcaption><b>Престиж</b><span>Золотой скрап, звёзды и рост множителя</span></figcaption>
+        <span class="shot-zoom" aria-hidden="true">⤢</span>
+      </figure>
+    </div>
+  </section>
+
+  <!-- HOW TO START -->
+  <section class="section wrap" id="start">
+    <div class="sec-head reveal">
+      <span class="kicker">Как начать</span>
+      <h2>Три шага — и ты на свалке</h2>
+      <p>Без установщика, без регистрации, без .NET и лишних скачиваний.</p>
+    </div>
+
+    <div class="steps">
+      <article class="step reveal">
+        <span class="step-num">01</span>
+        <h3>Скачай файл</h3>
+        <p>Нажми «Скачать для Windows». Один файл весом 67,1 МБ — внутри уже всё, что нужно.</p>
+      </article>
+      <article class="step reveal">
+        <span class="step-num">02</span>
+        <h3>Запусти .exe</h3>
+        <p>Двойной клик по <code>BarrelClicker.exe</code>. Установка не нужна. Если появится SmartScreen — «Подробнее» → «Выполнить в любом случае».</p>
+      </article>
+      <article class="step reveal">
+        <span class="step-num">03</span>
+        <h3>Собирай скрап</h3>
+        <p>Бочки появляются сами. Соединяй одинаковые, покупай улучшения и не забывай ловить магниты.</p>
+      </article>
+    </div>
+
+    <div class="start-extras">
+      <div class="note reveal">
+        <span class="note-ico" aria-hidden="true">🛡️</span>
+        <div>
+          <b>Windows может спросить подтверждение</b>
+          <p>Файл не подписан платным цифровым сертификатом, поэтому SmartScreen перестраховывается. Игра работает полностью локально: не отправляет данные и не требует интернет. Нажми «Подробнее» → «Выполнить в любом случае».</p>
+        </div>
+      </div>
+
+      <div class="specs-card reveal">
+        <b class="specs-title">Системные требования</b>
+        <ul class="specs">
+          <li><span>ОС</span><b>Windows 10 / 11</b></li>
+          <li><span>Разрядность</span><b>64-bit</b></li>
+          <li><span>Место</span><b>~200 МБ</b></li>
+          <li><span>Интернет</span><b>не нужен</b></li>
+        </ul>
+        <p class="specs-foot">Использует WebView2 — он уже есть в Windows 10/11 вместе с Edge.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE / PWA -->
+  <section class="section wrap" id="mobile">
+    <div class="sec-head reveal">
+      <span class="kicker">Android и iPhone</span>
+      <h2>Та же игра —<br><span class="dim">в кармане</span></h2>
+      <p>Открой игру в браузере телефона и добавь её на домашний экран. Она запустится как обычное приложение — без магазина, установщика и рекламы.</p>
+    </div>
+
+    <div class="mobile-grid">
+      <article class="mobile-card reveal">
+        <span class="mobile-os"><span aria-hidden="true">🤖</span> Android</span>
+        <ol class="mobile-steps">
+          <li>Открой <a href="play/">игру</a> в Chrome.</li>
+          <li>Нажми «Ещё» → «Установить на телефон» или меню ⋮ → «Установить приложение».</li>
+          <li>Подтверди установку — иконка появится на домашнем экране.</li>
+        </ol>
+      </article>
+
+      <article class="mobile-card reveal">
+        <span class="mobile-os"><span aria-hidden="true">🍎</span> iPhone и iPad</span>
+        <ol class="mobile-steps">
+          <li>Открой <a href="play/">игру</a> в Safari.</li>
+          <li>Нажми «Поделиться» <span class="mobile-key" aria-hidden="true">⬆️</span> внизу экрана.</li>
+          <li>Выбери «На экран „Домой“» и нажми «Добавить».</li>
+        </ol>
+      </article>
+    </div>
+
+    <div class="mobile-cta reveal">
+      <div>
+        <b>Готово к игре прямо сейчас</b>
+        <span>После первого запуска игра работает без интернета. Прогресс хранится на телефоне.</span>
+      </div>
+      <a class="btn btn-primary btn-lg" href="play/">Открыть на телефоне</a>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <section class="wrap download-section" id="download">
+    <div class="download-card reveal">
+      <div class="download-inner">
+        <div class="dl-copy">
+          <span class="kicker">Готово к игре</span>
+          <h2>Забрать Barrel Clicker</h2>
+          <p class="dl-lead">Один файл — и вся свалка твоя. Бесплатно, без рекламы, регистрации и подписок.</p>
+
+          <ul class="dl-facts">
+            <li><span>Версия</span><b>2.2</b></li>
+            <li><span>Размер</span><b>67,1 МБ</b></li>
+            <li><span>Платформа</span><b>Windows</b></li>
+            <li><span>Лицензия</span><b>бесплатно</b></li>
+          </ul>
+        </div>
+
+        <div class="dl-action">
+          <a class="btn btn-primary btn-xl" href="download/BarrelClicker.exe" download>
+            <span class="dl-ico" aria-hidden="true">↓</span>
+            Скачать BarrelClicker.exe
+          </a>
+          <p class="dl-sub">Нажимаешь — и файл уже качается. Установка не нужна.</p>
+
+          <div class="hash">
+            <span class="hash-label">SHA-256 файла</span>
+            <code id="shaValue">F1BB78C6AECC21FD072C9CD65021CB416DC887C1EE52BC3B1D3BB60CB1FDAC34</code>
+            <button class="copy-btn" id="copySha" type="button">Копировать</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section wrap faq" id="faq">
+    <div class="sec-head reveal">
+      <span class="kicker">Вопросы</span>
+      <h2>Коротко о главном</h2>
+    </div>
+
+    <div class="faq-list reveal">
+      <details class="faq-item" open>
+        <summary>Это правда бесплатно?</summary>
+        <div class="faq-body">Да. Ни рекламы, ни встроенных покупок, ни регистрации. Игра целиком лежит в одном файле и работает локально.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Нужно ли что-то устанавливать?</summary>
+        <div class="faq-body">Нет. <code>BarrelClicker.exe</code> — самодостаточный файл: внутри уже есть .NET-рантайм и сама игра. Просто запусти его.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Почему Windows предупреждает о файле?</summary>
+        <div class="faq-body">Приложение не подписано цифровым сертификатом — он стоит денег и для маленького проекта не обязателен. SmartScreen показывает предупреждение для любых неподписанных .exe. Нажми «Подробнее» → «Выполнить в любом случае».</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Где хранится прогресс?</summary>
+        <div class="faq-body">В папке <code>%LOCALAPPDATA%\BarrelClicker\profile\</code>. Сохранение происходит автоматически. Если удалить эту папку, игра начнётся заново.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Что даёт магнитный магазин?</summary>
+        <div class="faq-body">Это 5 постоянных улучшений за 🧲: чуть выше шанс магнита, дешевле вызов шторма, дольше шторм, шанс поймать +2 магнита и больше офлайн-дохода. Цены — от 300 магнитов, улучшения не сбрасываются при престиже.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Нужен ли интернет?</summary>
+        <div class="faq-body">Нет. Игра полностью офлайн: считает доход, сохраняет прогресс и не отправляет никакие данные.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Это мод или чит для чужой игры?</summary>
+        <div class="faq-body">Нет. Barrel Clicker — полностью собственная игра, написанная с нуля: HTML/CSS/JS внутри окна Windows. Никаких чужих ассетов и серверов.</div>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <a class="brand brand-foot" href="#top" aria-label="Barrel Clicker">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <defs>
+            <clipPath id="brandClip2">
+              <path d="M18 9 C18 5 46 5 46 9 C54 23 54 41 46 55 C46 59 18 59 18 55 C10 41 10 23 18 9 Z"/>
+            </clipPath>
+          </defs>
+          <path d="M18 9 C18 5 46 5 46 9 C54 23 54 41 46 55 C46 59 18 59 18 55 C10 41 10 23 18 9 Z" fill="#ffb238"/>
+          <g clip-path="url(#brandClip2)">
+            <rect x="8" y="19" width="48" height="7" fill="#1b2233" opacity="0.9"/>
+            <rect x="8" y="38" width="48" height="7" fill="#1b2233" opacity="0.9"/>
+            <rect x="20" y="12" width="4" height="40" rx="2" fill="#ffffff" opacity="0.18"/>
+          </g>
+          <ellipse cx="32" cy="9" rx="14" ry="3.6" fill="#1b2233" opacity="0.75"/>
+          <ellipse cx="32" cy="8.2" rx="11" ry="2.4" fill="#2a1c08" opacity="0.55"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <b>Barrel Clicker</b>
+        <i>Scrap Yard</i>
+      </span>
+    </a>
+
+    <nav class="footer-nav" aria-label="Навигация в подвале">
+      <a href="#features">Возможности</a>
+      <a href="#screens">Скриншоты</a>
+      <a href="#start">Как играть</a>
+      <a href="#mobile">Телефон</a>
+      <a href="#faq">FAQ</a>
+      <a href="#download">Скачать</a>
+    </nav>
+
+    <p class="copyright">© 2026 Barrel Clicker. Сделано вручную, без рекламы и платежей.</p>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр скриншота" hidden>
+  <button class="lb-close" id="lbClose" type="button" aria-label="Закрыть">✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev" type="button" aria-label="Предыдущий скриншот">‹</button>
+  <button class="lb-nav lb-next" id="lbNext" type="button" aria-label="Следующий скриншот">›</button>
+
+  <div class="lb-inner">
+    <img class="lb-img" id="lbImg" src="" alt="">
+    <p class="lb-cap" id="lbCap"></p>
+    <p class="lb-hint">Esc — закрыть · ← → — листать</p>
+  </div>
+</div>
+
+<script src="assets/site.js"></script>
+</body>
+</html>
