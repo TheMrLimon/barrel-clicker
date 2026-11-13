@@ -14,6 +14,95 @@
     });
   }
 
+  /* ---------- история версий ----------
+     Новую версию добавляйте первой в этот массив: version, date, title,
+     changes, download (ссылка на релиз) и current: true — для актуальной. */
+
+  const BC_VERSIONS = [
+    {
+      version: '2.4',
+      date: '13 ноября 2026',
+      title: 'Раздел «Версии»',
+      current: true,
+      changes: [
+        'На сайте появилась история всех обновлений — от первого релиза до актуальной версии.',
+        'Каждая новая версия будет сразу добавляться в этот список.',
+      ],
+      download: 'https://github.com/TheMrLimon/barrel-clicker/releases/download/v2.4/BarrelClicker.exe',
+    },
+    {
+      version: '2.3',
+      date: '12 ноября 2026',
+      title: 'Авто слияние',
+      changes: [
+        'Новое улучшение «Авто слияние»: одинаковые бочки сливаются автоматически.',
+        '5 уровней, интервал уменьшается с 10 до 6 секунд.',
+        'Цены: 1 M → 1 B → 1 T → 1 Qa → 1 Qi скрапа.',
+      ],
+      download: 'https://github.com/TheMrLimon/barrel-clicker/releases/download/v2.3/BarrelClicker.exe',
+    },
+    {
+      version: '2.2',
+      date: '12 ноября 2026',
+      title: 'Телефон и офлайн',
+      changes: [
+        'PWA для Android и iPhone: установка на домашний экран.',
+        'Офлайн-режим и мобильная адаптация интерфейса.',
+        'Публикация сайта и exe в GitHub Releases.',
+      ],
+      download: 'https://github.com/TheMrLimon/barrel-clicker/releases/download/v2.2/BarrelClicker.exe',
+    },
+    {
+      version: '2.1',
+      date: '2026',
+      title: 'Полировка и баланс',
+      changes: [
+        'Доработка магазина улучшений, интерфейса и баланса.',
+        'Исправления и мелкие улучшения стабильности.',
+      ],
+    },
+    {
+      version: '2.0',
+      date: '2026',
+      title: 'Barrel Clicker 2',
+      changes: [
+        '512 уровней бочек, 3D-модели и осмотр бочки.',
+        'Престиж, звёзды, золотой скрап и магнитный шторм.',
+        'Магазин улучшений и магнитный магазин.',
+      ],
+    },
+    {
+      version: '1.0',
+      date: '2026',
+      title: 'Первый релиз',
+      changes: [
+        'Поле слияния, бочки и скрап.',
+        'Магазин бочек и автосохранение прогресса.',
+      ],
+    },
+  ];
+
+  const versionsList = document.getElementById('versionsList');
+
+  if (versionsList) {
+    versionsList.innerHTML = BC_VERSIONS.map((item) => `
+      <article class="version-card${item.current ? ' current' : ''}">
+        <div class="version-side">
+          <span class="version-badge">v${item.version}</span>
+          ${item.current ? '<span class="version-tag">актуальная</span>' : ''}
+          ${item.date ? `<span class="version-date">${item.date}</span>` : ''}
+        </div>
+        <div class="version-body">
+          <h3>${item.title}</h3>
+          <ul>${item.changes.map((change) => `<li>${change}</li>`).join('')}</ul>
+          ${item.download
+            ? `<a class="version-dl" href="${item.download}" download>Скачать exe <span aria-hidden="true">↓</span></a>`
+            : ''}
+        </div>
+      </article>
+    `).join('');
+  }
+
   /* ---------- шапка при прокрутке ---------- */
 
   const header = document.querySelector('.site-header');
