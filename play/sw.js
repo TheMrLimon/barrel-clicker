@@ -4,14 +4,13 @@
    При обновлении версии меняйте CACHE — старые кэши удалятся сами.
 ------------------------------------------------------------------- */
 
-const CACHE = 'barrel-clicker-2-20261113a';
+const CACHE = 'barrel-clicker-2-20261113b';
 
 const CORE = [
   './',
   'index.html',
   'assets/style.css',
-  'assets/common.js',
-  'assets/game.js',
+  'assets/game.bundle.js',
   'manifest.webmanifest',
   'assets/icons/icon-192.png',
   'assets/icons/icon-512.png',
