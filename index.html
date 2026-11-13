@@ -27,7 +27,7 @@
 <script>
   /* Если exe лежит не в download/BarrelClicker.exe (например, в GitHub Releases),
      впишите сюда прямую ссылку. Пустая строка = локальный файл. */
-  window.BC_DOWNLOAD_URL = "https://github.com/TheMrLimon/barrel-clicker/releases/download/v2.3/BarrelClicker.exe";
+  window.BC_DOWNLOAD_URL = "https://github.com/TheMrLimon/barrel-clicker/releases/download/v2.4/BarrelClicker.exe";
 </script>
 </head>
 <body>
@@ -74,6 +74,7 @@
       <a href="#screens">Скриншоты</a>
       <a href="#start">Как играть</a>
       <a href="#mobile">Телефон</a>
+      <a href="#versions">Версии</a>
       <a href="#faq">FAQ</a>
     </nav>
 
@@ -122,8 +123,8 @@
       </ul>
 
       <div class="hero-meta">
-        <span class="meta-pill">v2.3</span>
-        <span>Обновлено 12 ноября 2026</span>
+        <span class="meta-pill">v2.4</span>
+        <span>Обновлено 13 ноября 2026</span>
       </div>
     </div>
 
@@ -355,7 +356,7 @@
           <p class="dl-lead">Один файл — и вся свалка твоя. Бесплатно, без рекламы, регистрации и подписок.</p>
 
           <ul class="dl-facts">
-            <li><span>Версия</span><b>2.3</b></li>
+            <li><span>Версия</span><b>2.4</b></li>
             <li><span>Размер</span><b>67,1 МБ</b></li>
             <li><span>Платформа</span><b>Windows</b></li>
             <li><span>Лицензия</span><b>бесплатно</b></li>
@@ -371,12 +372,23 @@
 
           <div class="hash">
             <span class="hash-label">SHA-256 файла</span>
-            <code id="shaValue">09C9439DA319B783BFE15D9AA1365282E2A8B869B0D14586FAC97DDA7CC03C10</code>
+            <code id="shaValue">D0864530BBBE6009AE37CE73D5F33D9906FCEFE11214989ACE7A66612232CE63</code>
             <button class="copy-btn" id="copySha" type="button">Копировать</button>
           </div>
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- VERSIONS -->
+  <section class="section wrap" id="versions">
+    <div class="sec-head reveal">
+      <span class="kicker">История обновлений</span>
+      <h2>Все версии <span class="dim">Barrel Clicker</span></h2>
+      <p>Каждое обновление получает свой номер и отдельный релиз. Новые версии добавляются в начало списка.</p>
+    </div>
+
+    <div class="versions reveal" id="versionsList"></div>
   </section>
 
   <!-- FAQ -->
@@ -457,6 +469,7 @@
       <a href="#screens">Скриншоты</a>
       <a href="#start">Как играть</a>
       <a href="#mobile">Телефон</a>
+      <a href="#versions">Версии</a>
       <a href="#faq">FAQ</a>
       <a href="#download">Скачать</a>
     </nav>
