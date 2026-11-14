@@ -16,7 +16,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/favicon-48.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="assets/style.css?v=20261113c">
+  <link rel="stylesheet" href="assets/style.css?v=20261114a">
 </head>
 <body>
   <div class="boot-splash" id="bootSplash" aria-hidden="true">
@@ -46,6 +46,10 @@
         </div>
       </div>
       <div class="appbar-actions">
+        <button class="icon-btn account-btn" id="accountBtn" aria-label="Аккаунт" title="Аккаунт">
+          <span id="accountBtnIco">👤</span>
+          <i class="account-dot" id="accountDot" hidden></i>
+        </button>
         <button class="icon-btn" id="soundBtn" aria-label="Звук" title="Звук">🔊</button>
         <button class="icon-btn" id="moreBtn" aria-label="Ещё">☰</button>
       </div>
@@ -270,6 +274,10 @@
 
       <div class="sheet-panel hidden" id="sheet-news">
         <div class="news-item">
+          <b>Аккаунт и облако</b>
+          <span>Создай аккаунт — прогресс будет храниться в облаке и переедет на другое устройство. Или играй как гость: тогда всё останется на этом устройстве.</span>
+        </div>
+        <div class="news-item">
           <b>Магнитный шторм</b>
           <span>Во время шторма магниты падают сверху вниз — успей кликнуть по каждому и собрать 🧲.</span>
         </div>
@@ -304,13 +312,18 @@
           </ol>
         </div>
         <div class="options-row">
+          <button class="btn" id="accountRowBtn">👤 Аккаунт</button>
+        </div>
+        <p class="options-note" id="accountStatusText">Гостевой режим: прогресс хранится только на этом устройстве.</p>
+
+        <div class="options-row">
           <button class="btn" id="exportBtn">Экспорт сохранения</button>
           <button class="btn" id="importBtn">Импорт сохранения</button>
         </div>
         <div class="options-row">
           <button class="btn danger wide" id="resetBtn">Сбросить весь прогресс</button>
         </div>
-        <p class="options-note">Сохранение хранится локально на этом компьютере.</p>
+        <p class="options-note">Гостевой прогресс хранится локально. С аккаунтом — ещё и в облаке.</p>
       </div>
     </div>
   </div>
@@ -459,6 +472,34 @@
 
   <div class="storm-layer" id="stormLayer"></div>
   <div class="toast-wrap" id="toastWrap"></div>
-  <script src="assets/game.bundle.js?v=20261113c"></script>
+
+  <div class="acc-onboard" id="accountOnboard" hidden>
+    <div class="acc-onboard-card">
+      <div class="acc-onboard-logo">🛢️</div>
+      <h2>Barrel Clicker</h2>
+      <p class="acc-onboard-lead">Создай аккаунт, чтобы прогресс сохранялся в облаке и не пропал при переустановке. Или играй как гость — тогда сохранение останется только на этом устройстве.</p>
+      <div class="acc-onboard-actions">
+        <button class="btn primary wide" data-acc="register">Создать аккаунт</button>
+        <button class="btn wide" data-acc="login">Войти в аккаунт</button>
+        <button class="btn wide acc-guest" data-acc="guest">Играть как гость</button>
+      </div>
+      <p class="acc-onboard-note">Для аккаунта нужны ник, почта и пароль. На почту придёт 8-значный код подтверждения.</p>
+    </div>
+  </div>
+
+  <div class="sheet" id="accountSheet" hidden>
+    <div class="sheet-card account-card">
+      <div class="sheet-head">
+        <b id="accountTitle">Аккаунт</b>
+        <button class="icon-btn" id="accountClose" aria-label="Закрыть">✕</button>
+      </div>
+      <div id="accountBody"></div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/supabase.js"></script>
+  <script src="assets/account-config.js"></script>
+  <script src="assets/game.bundle.js?v=20261114a"></script>
+  <script src="assets/account.js"></script>
 </body>
 </html>
