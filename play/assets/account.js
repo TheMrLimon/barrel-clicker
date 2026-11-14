@@ -84,6 +84,7 @@
   let pendingMode = '';
   let pendingPassword = '';
   let pendingNickname = '';
+  let recoveringSession = null;
   let resendTimer = null;
   let resendLeft = 0;
 
@@ -212,6 +213,8 @@
 
     if (view === 'register') renderRegister();
     else if (view === 'login') renderLogin();
+    else if (view === 'forgot') renderForgot();
+    else if (view === 'reset') renderReset();
     else if (view === 'code') renderCode();
     else if (view === 'conflict') renderConflict();
     else if (view === 'leaderboard') renderLeaderboard();
@@ -235,10 +238,11 @@
       '<div><span>🔐</span><b>8-значный код</b><p>Вход подтверждается кодом на почту.</p></div>' +
       '</div>' +
       '<div class="acc-actions">' +
-      '<button class="btn primary wide" data-acc="register">Создать аккаунт</button>' +
-      '<button class="btn wide" data-acc="login">Войти</button>' +
+      '<button class="btn primary wide" type="button" data-acc="register">Создать аккаунт</button>' +
+      '<button class="btn wide" type="button" data-acc="login">Войти</button>' +
+      '<button class="btn wide" type="button" data-acc="leaderboard">🏆 Рейтинг</button>' +
       '</div>' +
-      '<p class="acc-foot">В гостевом режиме прогресс не уходит в сеть.</p>';
+      '<p class="acc-foot">Рейтинг открыт всем, а прогресс в гостевом режиме не уходит в сеть.</p>';
   }
 
   function renderRegister() {
@@ -269,18 +273,54 @@
       '<div class="acc-actions">' +
       '<button class="btn primary wide" type="submit">Получить код на почту</button>' +
       '<button class="btn wide" type="button" data-acc="register">Создать аккаунт</button>' +
+      '<button class="btn wide linkish" type="button" data-acc="forgot">Забыли пароль?</button>' +
       '</div>' +
       '<p class="acc-foot">Сначала проверим ник и пароль, затем отправим 8-значный код на привязанную почту.</p>' +
       '</form>';
     focusFirst();
   }
 
+  function renderForgot() {
+    titleEl.textContent = 'Сброс пароля';
+    body.innerHTML =
+      '<form class="acc-form" data-form="forgot" novalidate>' +
+      '<p class="acc-muted">Введи почту, привязанную к аккаунту, — пришлём 8-значный код для нового пароля.</p>' +
+      '<label>Почта<input type="email" name="email" maxlength="120" autocomplete="email" placeholder="you@example.com" required></label>' +
+      errorBox('') +
+      '<div class="acc-actions">' +
+      '<button class="btn primary wide" type="submit">Получить код</button>' +
+      '<button class="btn wide" type="button" data-acc="login">Назад ко входу</button>' +
+      '</div>' +
+      '<p class="acc-foot">Если аккаунт зарегистрирован на другую почту, письмо не придёт.</p>' +
+      '</form>';
+    focusFirst();
+  }
+
+  function renderReset() {
+    titleEl.textContent = 'Новый пароль';
+    body.innerHTML =
+      '<form class="acc-form" data-form="reset" novalidate>' +
+      '<p class="acc-muted">Код принят. Придумай новый пароль — минимум 8 символов.</p>' +
+      '<label>Новый пароль<input type="password" name="password" minlength="8" maxlength="72" autocomplete="new-password" placeholder="Минимум 8 символов" required></label>' +
+      '<label>Пароль ещё раз<input type="password" name="password2" minlength="8" maxlength="72" autocomplete="new-password" placeholder="Повтори пароль" required></label>' +
+      errorBox('') +
+      '<div class="acc-actions">' +
+      '<button class="btn primary wide" type="submit">Сохранить пароль</button>' +
+      '<button class="btn wide" type="button" data-acc="cancel-reset">Отмена</button>' +
+      '</div>' +
+      '<p class="acc-foot">После сохранения пароля ты сразу войдёшь в аккаунт на этом устройстве.</p>' +
+      '</form>';
+    focusFirst();
+  }
+
   function renderCode() {
-    titleEl.textContent = pendingMode === 'signup' ? 'Подтверждение почты' : 'Код на почту';
+    const recovery = pendingMode === 'recovery';
+    titleEl.textContent =
+      pendingMode === 'signup' ? 'Подтверждение почты' : recovery ? 'Сброс пароля' : 'Код на почту';
     body.innerHTML =
       '<div class="acc-code-head">' +
       '<div class="acc-code-ico">✉️</div>' +
-      '<b>' + (pendingMode === 'signup' ? 'Подтверди почту' : 'Подтверди вход') + '</b>' +
+      '<b>' + (pendingMode === 'signup' ? 'Подтверди почту' : recovery ? 'Код для сброса пароля' : 'Подтверди вход') + '</b>' +
       '<p>Код отправлен на <b>' + esc(maskEmail(pendingEmail)) + '</b>. Введи 8 цифр из письма.</p>' +
       '</div>' +
       '<form class="acc-form" data-form="code" novalidate>' +
@@ -586,15 +626,86 @@
 
     setBusy(true);
     try {
-      const type = pendingMode === 'signup' ? 'signup' : 'email';
+      const type =
+        pendingMode === 'signup' ? 'signup' : pendingMode === 'recovery' ? 'recovery' : 'email';
       const { data, error } = await sb.auth.verifyOtp({ email: pendingEmail, token, type });
       if (error) throw error;
       if (!data || !data.session) {
         setError('Код принят, но сессия не создалась. Попробуй войти заново.');
         return;
       }
+
+      /* при сбросе пароля сначала спрашиваем новый пароль, вход — после сохранения */
+      if (pendingMode === 'recovery') {
+        recoveringSession = data.session;
+        setView('reset');
+        toast('Код принят — придумай новый пароль', 'good');
+        return;
+      }
+
       await completeLogin(data.session, pendingNickname);
       toast('Готово! Аккаунт подключён', 'good');
+    } catch (err) {
+      setError(humanError(err));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  /* ------------------------------------------------------------ сброс пароля */
+
+  async function doForgot(form) {
+    const email = String(form.email.value || '').trim().toLowerCase();
+    setError('');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      setError('Проверь адрес почты.');
+      return;
+    }
+
+    setBusy(true);
+    try {
+      const { error } = await sb.auth.resetPasswordForEmail(email);
+      if (error) throw error;
+      pendingEmail = email;
+      pendingMode = 'recovery';
+      pendingNickname = '';
+      setView('code');
+      toast('Код для сброса отправлен на ' + maskEmail(email), 'good');
+    } catch (err) {
+      setError(humanError(err));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function doResetPassword(form) {
+    const password = String(form.password.value || '');
+    const password2 = String(form.password2.value || '');
+    setError('');
+    if (password.length < 8) {
+      setError('Пароль должен быть не короче 8 символов.');
+      return;
+    }
+    if (password !== password2) {
+      setError('Пароли не совпадают.');
+      return;
+    }
+
+    setBusy(true);
+    try {
+      const { error } = await sb.auth.updateUser({ password });
+      if (error) throw error;
+      const next = recoveringSession;
+      recoveringSession = null;
+      pendingMode = '';
+      pendingPassword = '';
+      if (next) {
+        await completeLogin(next, pendingNickname);
+        toast('Пароль обновлён, ты в аккаунте', 'good');
+      } else {
+        setView('login');
+        toast('Пароль обновлён — войди с новым паролем', 'good');
+      }
     } catch (err) {
       setError(humanError(err));
     } finally {
@@ -609,6 +720,9 @@
     try {
       if (pendingMode === 'signup') {
         const { error } = await sb.auth.resend({ type: 'signup', email: pendingEmail });
+        if (error) throw error;
+      } else if (pendingMode === 'recovery') {
+        const { error } = await sb.auth.resetPasswordForEmail(pendingEmail);
         if (error) throw error;
       } else {
         const { error } = await sb.auth.signInWithOtp({
@@ -961,6 +1075,8 @@
     pushTimer = null;
     pendingEmail = '';
     pendingPassword = '';
+    pendingMode = '';
+    recoveringSession = null;
     try {
       localStorage.setItem(MODE_KEY, 'guest');
       localStorage.removeItem(PROFILE_KEY);
@@ -1016,10 +1132,24 @@
 
     if (act === 'register') setView('register');
     else if (act === 'login') setView('login');
+    else if (act === 'forgot') {
+      pendingMode = '';
+      setView('forgot');
+    } else if (act === 'cancel-reset') {
+      recoveringSession = null;
+      pendingMode = '';
+      pendingEmail = '';
+      try {
+        sb.auth.signOut();
+      } catch (e) {}
+      session = null;
+      setView('guest');
+    }
     else if (act === 'back') {
       if (session) setView('account');
       else if (pendingMode === 'signup') setView('register');
       else if (pendingMode === 'login') setView('login');
+      else if (pendingMode === 'recovery') setView('forgot');
       else setView('guest');
     }
     else if (act === 'resend') doResend();
@@ -1059,6 +1189,8 @@
     const kind = form.dataset.form;
     if (kind === 'register') doRegister(form);
     else if (kind === 'login') doLogin(form);
+    else if (kind === 'forgot') doForgot(form);
+    else if (kind === 'reset') doResetPassword(form);
     else if (kind === 'code') doVerifyCode(form);
   });
 
@@ -1107,6 +1239,8 @@
         if (!sheet.hidden) renderGuest();
         updateChrome();
       } else if (nextSession && event === 'SIGNED_IN' && !session) {
+        /* вход по коду сброса пароля не должен сразу открывать профиль */
+        if (pendingMode === 'recovery' || view === 'reset') return;
         session = nextSession;
         completeLogin(nextSession, '');
       }
