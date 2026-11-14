@@ -2061,6 +2061,17 @@ body {
   font-weight: 800;
 }
 
+/* «Забыли пароль?» — тихая ссылка, а не очередная кнопка */
+.acc-form .btn.linkish {
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 4px;
+}
+
+.acc-form .btn.linkish:hover { color: #fff; text-decoration: underline; }
+
 /* Выбор сохранения при входе */
 .acc-conflict-lead { margin: 0 0 12px; line-height: 1.5; }
 
